@@ -1,0 +1,52 @@
+<section class="h-auto" style="background-color: #eee;" *ngIf="!lodaing">
+  <div class="row row-cols-1 p-5 row-cols-md-4 ">
+
+    <div class="col mt-3" *ngFor="let customer of custmoers ; let index=index">
+      <div class="card " style="height: 300px;">
+
+        <div class="bg-amber-400 w-100" style="height: 100px; background-color: #ffc220;"></div>
+        <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="card-img-top mx-auto  "
+          style="width: 125px; height: 125px; margin-top: -50px;">
+        <div class="card-body">
+          <h5 class="card-title">Name: {{customer.firstName}} {{customer.lastName}}</h5>
+          <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#exampleModal"
+            (click)="view(index)">
+            More Details
+          </button>
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" style="max-width: 1000px!important">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Customer info</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form>
+                    <div class="row mb-3">
+                      <div class="col-md-6 col-sm-12">
+                        <h5 class="mt-2">Full Name: {{details.firstName}} {{details.lastName}}</h5>
+                        <h5 class="mt-2">Email: {{details.email}}</h5>
+                        <h5 class="mt-2">Address: {{details.address}}</h5>
+                        <h5 class="mt-2">Create Date: {{details.createdAt | date:"longDate"}}</h5>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="text-center w-100" style="margin-top: 10%;" *ngIf="lodaing">
+  <app-spinner></app-spinner>
+</div>

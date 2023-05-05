@@ -1,0 +1,439 @@
+<div *ngIf="!lodaing">
+  <div class=" border-0 shadow mb-4 mt-3 d-flex row justify-content-between text-center">
+
+    <div class="card text-white bg-primary mb-3 col-md-4 col-sm-1" style="max-width: 18rem;">
+
+      <div class="card-body">
+        <h5 class="card-title">Depratments</h5>
+        <p class="card-text display-1">{{departments.length}}</p>
+      </div>
+    </div>
+
+    <div class="card text-white bg-success mb-3 col-md-4 col-sm-1" style="max-width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Sub Depratmentsd</h5>
+        <p class="card-text display-1">{{subDepartments.length}}</p>
+      </div>
+    </div>
+
+    <div class="card text-white bg-info mb-3 col-md-4 col-sm-1" style="max-width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Sub - Sub Depratments</h5>
+        <p class="card-text display-1">{{subSubDepartments.length}}</p>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="row mb-3" style="background-color: #eee; height: 100vh;">
+
+
+    <!-- Add Department Button -->
+    <div class="col-md-4 col-sm-12">
+      <div class="mb-3 mt-5 d-flex flex-wrap">
+        <button type="button" class="btn btn-primary w-100 mb-5" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          Add New Department
+        </button>
+        <h5 class="text-center w-100">All Depratments</h5>
+      </div>
+
+
+      <!-- Department Section Display -->
+
+      <section style="background-color: #eee;">
+
+        <div class="container py-2 " style="height: 100px; padding-left: 60px; padding-right: 60px;"
+          *ngFor="let department of departments">
+          <div
+            class="bg-image d-flex  flex-wrap align-items-center bg-white hover-zoom ripple rounded ripple-surface py-2"
+            style="height: 100%; padding-left: 20px;">
+            <h5 class="w-100 text-center">{{department.name.en}}</h5>
+            <div class="d-flex ms-5 mx-5 align-items-center w-100">
+              <button class="btn btn-primary btn-sm bg-warning" style="width: 70px" type="button" data-bs-toggle="modal"
+                data-bs-target="#exampleModalTwo">Edite</button>
+              <button class="btn btn-primary btn-sm bg-danger ms-3" style="width: 70px" type="button"
+                (click)="removeDepartment(department._id)">Remove</button>
+            </div>
+          </div>
+
+          <!-- Modal For Update Department  -->
+          <div class="modal fade" id="exampleModalTwo" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" style="max-width: 1000px!important">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Add Department</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+
+                  <form [formGroup]="form">
+
+                    <div class="row mb-3" formGroupName="name">
+                      <div class="col-md-4 col-sm-12">
+                        <label for="">Name / الاسم</label>
+                        <input type="text" class="form-control" placeholder="name" formControlName="en" name="name.en"
+                          required placeholder="Name"><span>* Requierd</span>
+                        <input type="text" class="form-control mt-3" placeholder="name" name="name.ar" required
+                          formControlName="ar" placeholder="الاسم"><span>* Requierd</span>
+                      </div>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button class="btn btn-success" [disabled]="!form.valid"
+                        (click)="updateDepartment(department._id )">Update
+                        Department</button>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </section>
+
+      <!-- Modal For Add Depratment -->
+
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 1000px!important">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Department</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+              <form [formGroup]="form">
+
+                <div class="row mb-3" formGroupName="name">
+                  <div class="col-md-4 col-sm-12">
+                    <label for="">Name / الاسم</label>
+                    <input type="text" class="form-control" placeholder="name" formControlName="en" name="name.en"
+                      required placeholder="Name"><span>* Requierd</span>
+                    <input type="text" class="form-control mt-3" placeholder="name" name="name.ar" required
+                      formControlName="ar" placeholder="الاسم"><span>* Requierd</span>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button class="btn btn-success" [disabled]="!form.valid" (click)="addNewDepartment()">Add
+                    Department</button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Add Sub Department Button -->
+    <div class="col-md-4 col-sm-12">
+
+      <div class="mb-3 mt-5 d-flex flex-wrap">
+        <button type="button" class="btn btn-success w-100 mb-5" data-bs-toggle="modal"
+          data-bs-target="#exampleModalSub">
+          Add New Sub Department
+        </button>
+        <h5 class=" text-center w-100">All Sub Depratments</h5>
+      </div>
+
+      <!-- Sub Department Section Display -->
+
+
+      <section style="background-color: #eee;">
+
+        <div *ngFor="let subDepartment of subDepartments ; let i=index" class="container py-2 "
+          style="height: 100px; padding-left: 60px; padding-right: 60px;">
+
+          <div class="bg-image d-flex  flex-wrap align-items-center bg-white hover-zoom ripple rounded ripple-surface "
+            style="height: 100%; padding-left: 20px;">
+            <h5 class="w-100 text-center">{{subDepartment.name.en}}</h5>
+            <div class="d-flex ms-5 mx-5 align-items-center w-100">
+              <button class="btn btn-primary btn-sm bg-warning" style="width: 70px" type="button" data-bs-toggle="modal"
+                data-bs-target="#exampleModalThree" (click)="update(subDepartment._id , i)">Edite</button>
+              <button class="btn btn-primary btn-sm bg-danger ms-3" style="width: 70px" type="button"
+                (click)="removeSubDepartment(subDepartment._id)">Remove</button>
+            </div>
+
+          </div>
+
+          <!-- Modal For Update Sub Department  -->
+
+          <div class="modal fade" id="exampleModalThree" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+
+            <div class="modal-dialog" style="max-width: 1000px!important">
+
+              <div class="modal-content">
+
+                <div class="modal-header">
+
+                  <h5 class="modal-title" id="exampleModalLabel">Edite Sub Department</h5>
+
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                </div>
+
+                <div class="modal-body">
+
+                  <form [formGroup]="formSub">
+
+                    <div class="row mb-3">
+
+                      <div class="col-md-4 col-sm-12" formGroupName="name">
+                        <label for="">Sub Name / الاسم</label>
+                        <input type="text" class="form-control" placeholder="name" formControlName="en" name="name"
+                          required><span>*Requierd</span>
+                        <input type="text" class="form-control mt-3" placeholder="الاسم" formControlName="ar"
+                          name="name" required><span>*Requierd</span>
+                      </div>
+
+                      <div class="col-md-4 col-sm-12">
+                        <label for="">Department</label>
+                        <select name="" id="" class="form-control" formControlName="parentID">
+                          <option value="" *ngFor="let department of departments" [ngValue]="department._id">
+                            {{department.name.en}}
+                          </option>
+                        </select>
+                      </div>
+
+
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button class="btn btn-success" [disabled]="!formSub.valid"
+                        (click)="updateSubDepartment(formSub.value)">Update
+                        Sub Department</button>
+                    </div>
+
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </section>
+
+      <!-- Modal For Add Sub Depratment -->
+
+      <div class="modal fade" id="exampleModalSub" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 1000px!important">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Sub Department</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+              <form [formGroup]="formSub">
+
+                <div class="row mb-3">
+
+                  <div class="col-md-4 col-sm-12" formGroupName="name">
+                    <label for="">Sub Name / الاسم</label>
+                    <input type="text" class="form-control" placeholder="name" formControlName="en" name="name"
+                      required><span>*Requierd</span>
+                    <input type="text" class="form-control mt-3" placeholder="الاسم" formControlName="ar" name="name"
+                      required><span>*Requierd</span>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12">
+                    <label for="">Department</label>
+                    <select name="" id="" class="form-control" formControlName="parentID">
+                      <option value="" *ngFor="let department of departments" [ngValue]="department._id">
+                        {{department.name.en}}
+                      </option>
+                    </select>
+                  </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button class="btn btn-success" [disabled]="!formSub.valid" (click)="addNewSubDepartment()">Add
+                    Sub Department</button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- Add Sub Sub Department Button -->
+    <div class="col-md-4 col-sm-12">
+
+
+      <div class="mb-3 mt-5 d-flex flex-wrap">
+        <button type="button" class="btn btn-info w-100 mb-5" data-bs-toggle="modal"
+          data-bs-target="#exampleModalSubSub">
+          Add New Sub / Sub Department
+        </button>
+        <h5 class=" text-center w-100">All Sub-Sub Depratments</h5>
+      </div>
+
+      <!-- Sub Sub Department Section Display -->
+
+
+      <section style="background-color: #eee;">
+
+        <div *ngFor="let subSubDepartment of subSubDepartments ; let i=index" class="container py-2 "
+          style="height: 100px; padding-left: 60px; padding-right: 60px;">
+
+          <div class="bg-image d-flex  flex-wrap  align-items-center bg-white hover-zoom ripple rounded ripple-surface "
+            style="height: 100%; padding-left: 20px;">
+            <h5 class="text-center w-100">{{subSubDepartment.name.en}}</h5>
+            <div class="d-flex ms-5 mx-5 align-items-center w-100">
+              <button class="btn btn-primary btn-sm bg-warning" style="width: 70px" type="button" data-bs-toggle="modal"
+                data-bs-target="#exampleModalSubSubUpdate" (click)="update(subSubDepartment._id , i)">Edite</button>
+              <button class="btn btn-primary btn-sm bg-danger ms-3" style="width: 70px" type="button"
+                (click)="removeSubSubDepartment(subSubDepartment._id)">Remove</button>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Modal For Add Sub Sub Depratment -->
+
+      <div class="modal fade" id="exampleModalSubSub" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 1000px!important">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Sub Department</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body">
+
+
+              <form [formGroup]="formSubSub">
+
+                <div class="row mb-3">
+
+                  <div class="col-md-4 col-sm-12" formGroupName="name">
+                    <label for="">Sub Sub Name / الاسم</label>
+                    <input type="text" class="form-control" placeholder="name" formControlName="en" name="name"
+                      required><span>*Requierd</span>
+                    <input type="text" class="form-control mt-3" placeholder="الاسم" formControlName="ar" name="name"
+                      required><span>*Requierd</span>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12">
+                    <label for="">Sub Department</label>
+                    <select name="" id="" class="form-control" formControlName="parentID">
+                      <option value="" *ngFor="let subDepartment of subDepartments" [ngValue]="subDepartment._id">
+                        {{subDepartment.name.en}}
+                      </option>
+                    </select>
+                  </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button class="btn btn-success" [disabled]="!formSubSub.valid" (click)="addNewSubSubDepartment()">Add
+                    Sub Sub Department</button>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- Modal For Edite Sub Sub Depratment -->
+
+      <div class="modal fade" id="exampleModalSubSubUpdate" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+
+        <div class="modal-dialog" style="max-width: 1000px!important">
+
+          <div class="modal-content">
+
+            <div class="modal-header">
+
+              <h5 class="modal-title" id="exampleModalLabel">Edite Sub Department</h5>
+
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            </div>
+
+            <div class="modal-body">
+
+              <form [formGroup]="formSubSub">
+
+                <div class="row mb-3">
+
+                  <div class="col-md-4 col-sm-12" formGroupName="name">
+                    <label for="">Sub Sub Name / الاسم</label>
+                    <input type="text" class="form-control" placeholder="name" formControlName="en" name="name.en"
+                      required><span>*Requierd</span>
+                    <input type="text" class="form-control mt-3" placeholder="الاسم" formControlName="ar"
+                      name="name.ar"><span>*Requierd</span>
+                  </div>
+
+                  <div class="col-md-4 col-sm-12">
+                    <label for="">Sub Department</label>
+                    <select name="" id="" class="form-control" formControlName="parentID">
+                      <option value="" *ngFor="let subDepartment of subDepartments" [ngValue]="subDepartment._id">
+                        {{subDepartment.name.en}}
+                      </option>
+                    </select>
+                  </div>
+
+
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button class="btn btn-success" [disabled]="!formSubSub.valid"
+                    (click)="updateSubSubDepartment(formSubSub.value)">Update
+                    Sub Sub Department</button>
+                </div>
+
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="text-center w-100" style="margin-top: 10%;" *ngIf="lodaing">
+  <app-spinner></app-spinner>
+</div>

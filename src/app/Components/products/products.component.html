@@ -1,0 +1,307 @@
+<div *ngIf="!loading">
+  <!-- all Products Display -->
+  <div class="mb-3">
+    <button class="btn btn-primary btn-sm bg-orange-400 me-4" style="width: 150px; margin-top: 30px;" type="button"
+      data-bs-toggle="modal" data-bs-target="#addProduct">Add Product</button>
+  </div>
+
+
+
+  <section style="background-color: #eee; ">
+    <div class="container py-2 " style="height: 125px; padding-left: 60px; padding-right: 60px; "
+      *ngFor="let product of products; let i=index">
+      <div
+        class="bg-image d-flex justify-content-between align-items-center bg-white hover-zoom ripple rounded ripple-surface "
+        style="height: 100%; ">
+        <img [src]="product.mainPhoto" class="h-100 ms-2" style="width: 10%;" />
+        <h5 class="ms-3" style="width: 70%;">{{product.name.en}}</h5>
+        <h1 style="color: #EEE; margin-left: 20px; ">|</h1>
+        <div class="">
+          <h5 class="ms-3">${{product.priceAfter}}</h5>
+        </div>
+        <div class="d-flex ms-5 mx-5 align-items-center" style="width: 25%;">
+          <button class="btn btn-primary btn-sm bg-success me-4" style="width: 70px" type="button"
+            data-bs-toggle="modal" data-bs-target="#productDetails"
+            (click)="viewDetails(product._id , product)">Details</button>
+          <button class="btn btn-warning btn-sm ms-3 me-3 " style="width: 70px" type="button" data-bs-toggle="modal"
+            data-bs-target="#editProduct" (click)="editProduct(product._id , product)">Edite</button>
+          <button class="btn btn-primary btn-sm bg-danger" style="width: 70px" type="button"
+            (click)="removeProduct(product._id)">Remove</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+  <!-- Modal For Product Details -->
+
+  <div class="modal modal-xl fade " style="overflow-y:hidden ; margin-left: 200px; " id="productDetails" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Product Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <div class="row justify-content-center mb-3">
+            <div class="col-md-12 col-xl-10">
+              <div class="card shadow-0 border rounded-3">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                      <div class="bg-image hover-zoom ripple rounded ripple-surface">
+                        <img [src]="prodThree.mainPhoto" class="w-100" />
+                        <a href="#!">
+                          <div class="hover-overlay">
+                            <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                          </div>
+                        </a>
+                        <h2 class="text-danger mt-3">Quantity: {{prodThree.quantity}}</h2>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-6">
+                      <h5>{{prodThree.name.en}}</h5>
+                      <div class="mt-3 mb-0 text-muted small " style="max-height:400px ; overflow-y: auto;">
+                        <span class="">{{prodThree.productDetails.en}}</span>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3 col-xl-3 border-sm-start-none border-start">
+                      <div class="d-flex flex-row align-items-center mb-1">
+                        <h2 class="text-danger mt-3">Price: ${{prodThree.priceAfter}}</h2>
+                      </div>
+                      <h6 class="text-success">Brand: {{prodThree.brand.en}}</h6>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal For Edit Product -->
+
+  <div class="modal fade" id="editProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 1000px!important">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edite Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+            <div class="row mb-3">
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Name / اسم المنتج</label>
+                <input type="text" class="form-control" placeholder="name" name="name.en" required
+                  [(ngModel)]="prodTwo.name.en">
+                <input type="text" class="form-control mt-2" placeholder="اسم المنتج" name="name.ar" required
+                  [(ngModel)]="prodTwo.name.ar">
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">is Active</label>
+                <select class="form-control" name="" id="" name="sub-department" [(ngModel)]="prodTwo.isActive">
+                  <option value="true">Yes</option>
+                  <option value="false">No</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Price / السعر</label>
+                <input type="number" class="form-control" placeholder="price" name="price" required
+                  [(ngModel)]="prodTwo.priceAfter" min="1">
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Quantity / ألكمية</label>
+                <input type="number" class="form-control" placeholder="quantity" name="rating" required
+                  [(ngModel)]="prodTwo.quantity" min="1">
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="image">Brand / الماركة</label>
+                <input type="text" class="form-control" placeholder="Brand" name="brand.en" required
+                  [(ngModel)]="prodTwo.brand.en">
+                <input type="text" class="form-control mt-2" placeholder="الماركة" name="brand" required
+                  [(ngModel)]="prodTwo.brand.ar">
+              </div>
+
+              <!-- <div class="col-md-6 col-sm-12 mt-3">
+                <label for="image">Photos / الصور</label>
+                <input type="file" multiple="multiple" class="form-control" placeholder="main photo" name="mainPhoto"
+                  required (change)="getphoto($event)">
+              </div> -->
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Departments / القسم:</label>
+                <select class="form-control" name="" id="" name="department" [(ngModel)]="prodTwo.departmentID">
+                  <option value="" *ngFor="let department of allDepartments" [ngValue]="department._id">
+                    {{department.name.en}}</option>
+                </select>
+              </div>
+
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Sub Departments / القسم الفرعي</label>
+                <select class="form-control" name="" id="" name="sub-department" [(ngModel)]="prodTwo.subDepartmentID">
+                  <option value="" *ngFor="let subDepartment of allSubDepartments" [ngValue]="subDepartment._id">
+                    {{subDepartment.name.en}}</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Sub Sub Departments / القسم الداخلي</label>
+                <select class="form-control" name="" id="" name="sub-sub-department"
+                  [(ngModel)]="prodTwo.nestedSubDepartment">
+                  <option value="" *ngFor="let subSubDepartment of allSubSubDepartments"
+                    [ngValue]="subSubDepartment._id">
+                    {{subSubDepartment.name.en}}</option>
+                </select>
+              </div>
+
+              <div class="col-md-12 col-sm-12 mt-3">
+                <label for="image">Description / الوصف</label>
+                <textarea class="form-control" placeholder="Description here .. " name="productDetails" required
+                  [(ngModel)]="prodTwo.productDetails.en"></textarea>
+                <textarea class="form-control mt-3" placeholder="اكتب الوصف هنا .. " name="productDetails" required
+                  [(ngModel)]="prodTwo.productDetails.ar"></textarea>
+              </div>
+
+
+            </div>
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button class="btn btn-success" (click)="updateProduct()">Update
+                Product</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Modal For Add Product -->
+
+  <div class="modal fade" id="addProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" style="max-width: 1000px!important">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form>
+
+            <div class="row mb-3">
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Name / اسم المنتج</label>
+                <input type="text" class="form-control" placeholder="name" name="name.en" required
+                  [(ngModel)]="prod.name.en">
+                <input type="text" class="form-control mt-2" placeholder="اسم المنتج" name="name.ar" required
+                  [(ngModel)]="prod.name.ar">
+              </div>
+
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Price / السعر</label>
+                <input type="number" class="form-control" placeholder="price" name="price" required
+                  [(ngModel)]="prod.priceAfter" min="1">
+              </div>
+
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Quantity / ألكمية</label>
+                <input type="number" class="form-control" placeholder="quantity" name="rating" required
+                  [(ngModel)]="prod.quantity" min="1">
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="image">Brand / الماركة</label>
+                <input type="text" class="form-control" placeholder="Brand" name="brand.en" required
+                  [(ngModel)]="prod.brand.en">
+                <input type="text" class="form-control mt-2" placeholder="الماركة" name="brand" required
+                  [(ngModel)]="prod.brand.ar">
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="image">Photos / الصور</label>
+                <input type="file" multiple="multiple" class="form-control" placeholder="main photo" name="mainPhoto"
+                  required (change)="getphoto($event)">
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Departments / القسم:</label>
+                <select class="form-control" name="" id="" name="department" [(ngModel)]="prod.departmentID">
+                  <option value="" *ngFor="let department of allDepartments" [ngValue]="department._id">
+                    {{department.name.en}}</option>
+                </select>
+              </div>
+
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Sub Departments / القسم الفرعي</label>
+                <select class="form-control" name="" id="" name="sub-department" [(ngModel)]="prod.subDepartmentID">
+                  <option value="" *ngFor="let subDepartment of allSubDepartments" [ngValue]="subDepartment._id">
+                    {{subDepartment.name.en}}</option>
+                </select>
+              </div>
+
+              <div class="col-md-6 col-sm-12 mt-3">
+                <label for="">Sub Sub Departments / القسم الداخلي</label>
+                <select class="form-control" name="" id="" name="sub-sub-department"
+                  [(ngModel)]="prod.nestedSubDepartment">
+                  <option value="" *ngFor="let subSubDepartment of allSubSubDepartments"
+                    [ngValue]="subSubDepartment._id">
+                    {{subSubDepartment.name.en}}</option>
+                </select>
+              </div>
+
+              <div class="col-md-12 col-sm-12 mt-3">
+                <label for="image">Description / الوصف</label>
+                <textarea class="form-control" placeholder="Description here .. " name="productDetails" required
+                  [(ngModel)]="prod.productDetails.en"></textarea>
+                <textarea class="form-control mt-3" placeholder="اكتب الوصف هنا .. " name="productDetails" required
+                  [(ngModel)]="prod.productDetails.ar"></textarea>
+              </div>
+
+
+            </div>
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button class="btn btn-success" (click)="addProduct()">Add
+                Product</button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="text-center w-100" style="margin-top: 10%;" *ngIf="loading">
+  <app-spinner></app-spinner>
+</div>
